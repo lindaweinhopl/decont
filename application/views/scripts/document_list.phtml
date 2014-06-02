@@ -64,17 +64,7 @@
 </table>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('li a').mouseenter(function(){
-            $(this).find('.details').toggle(400);
-        });
-        $('li a').mouseleave(function(){
-            $(this).find('.details').toggle(400);
-        });
 
-    });
-</script>
 
 <div style="margin-left: 270px">
 <?= $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
