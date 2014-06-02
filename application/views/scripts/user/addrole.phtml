@@ -1,0 +1,39 @@
+<h1> Add role </h1>
+
+<form enctype="application/x-www-form-urlencoded" autocomplete="off" action="/user/addrole" method="post" >
+	<div class="clearfix">
+    <div style="float: left; width: 200px; padding-right: 0px; padding-left: 50px">
+
+    <p>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" class="round full-width-input required" required/>
+    </p>
+    <p>
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" class="round full-width-input required" required/>
+    </p>
+    <input type="submit" value="Register" class="round blue ic-add effect2" />
+    </div>
+
+    <div style="float:left; width: 400px; margin-left: 100px">
+        <h3 style="margin-top: -20px;margin-bottom: 0px; padding-bottom: 5px">Privilegies</h3>
+    	<p>  
+		<?php
+            $actions = array('create', 'edit', 'delete');
+            $targets = array('user', 'report', 'role');
+
+		foreach($targets as $target){
+            echo "<h4 style='padding-bottom:0px;margin-bottom:5px'>".strtoupper($target)."</h4>";
+            foreach($actions as $action){
+			?>
+		    	<input style="display:inline" type="checkbox" name="<?=$action?>_<?=$target?>" id="<?=$action?>_<?=$target?>" value='1'/>
+		    	<label style="display:inline" for="<?=$action?>_<?=$target?>"><?=$action?></label>
+		    	<br>
+	   		
+		<?php
+		}}?>
+		<br>
+		</p>
+    </div>
+    </div>
+</form>

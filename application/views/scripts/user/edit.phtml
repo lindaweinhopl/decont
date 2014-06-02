@@ -1,0 +1,49 @@
+<h1> Edit User</h1>
+<?php
+    $identity = Zend_Auth::getInstance()->getIdentity();
+?>
+
+<form action="/user/edit?id=<?=$this->user->id?>"
+    autocomplete="off" method="post" id="user_settings_form">                        
+    <div class="clearfix">
+    <div style="float: left; width: 200px; padding-right: 0px; padding-left: 50px">
+
+    <p>
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" value="<?=$this->user->first_name?>" class="round full-width-input"/>
+    </p>
+    <p>
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" value="<?=$this->user->last_name?>" class="round full-width-input"/>
+    </p>
+    <p>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" value="<?=$this->user->email?>" class="round full-width-input"/>
+    </p>
+    <p>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="round full-width-input" required/>
+    </p>
+    </div>
+    
+    <div style="float:left; width: 400px; margin-left: 100px">
+    <p>
+        <h4 style="margin-bottom: 0px; padding-bottom: 10px">Role</h4>
+        
+        <?php
+        foreach($this->roles as $role){
+            ?>
+                <input <?php if ($role->id == $this->user->role){ echo "checked";}?> style="display:inline" type="radio" name="role" value="<?=$role->id?>" id="<?=$role->id?>"/>
+                <label style="display:inline" for="<?$role->id?>"><?=$role->name?></label>
+                <br>
+            
+        <?php
+        }?>
+        <br>
+        <em>Click<a href="/user"> here </a>if you want to create new roles or get informations about existing user roles.</em>
+        </p>
+    
+    <input type="submit" value="Update" class="round blue ic-settings effect2" />
+    </div>
+    </div>
+</form>

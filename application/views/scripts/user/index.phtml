@@ -1,0 +1,159 @@
+<?php
+	$identity = Zend_Auth::getInstance()->getIdentity();
+	$user_mapper = new Application_Model_UserMapper();
+	$role_mapper = new Application_Model_RoleMapper();
+	$user_role = $role_mapper->getRoleById($identity->role);
+	
+?>
+
+<h1> Roles 
+	<?php
+	if ($user_role->create_role == 1){
+		?>
+		<a href="/user/addrole"><div class="effect1 small-button round blue ic-add" style="position:relative; top: -5px; left: 40px">Add Role</div></a>
+		<?php
+	}
+	?>
+
+</h1>
+
+
+<table id="table_legend" class="hidden visuallyhidden" 
+	<?php if (!$user_role->create_role){
+		echo "style='top:20px'";
+	}?>
+>
+<tr class="table_header">
+	<td colspan=3>Privilegies List</td>
+</tr>
+<tr>
+	<td width='33.33%' class="create">Create</td>
+	<td width='33.33%' class="edit">Edit</td>
+	<td width='33.33%' class="delete">Delete</td>
+</tr>
+</table>
+
+<table id='privilegies_table' class="effect1">
+<tr class='table_header'>
+	<td class='role_name'>Name</td>
+	<td clsas='role_desc'>Description</td>
+	<td colspan=9>
+		<table width='100%'>
+		    <tr>
+		    	<td colspan=3>Privilegies
+		    		<img src="../img/icons/message-boxes/information.png" id="show_privilegies">
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td width='33.33%'>Documents</td>
+		    	<td width='33.33%'>Users</td>
+		    	<td width='33.33$'>Roles</td>
+		    </tr>
+		</table>
+	</td>
+	<?php if ($user_role->edit_role == 1){
+		echo "<td class='outer_column'></td>";}
+	?>
+	<?php if ($user_role->delete_role == 1){
+		echo "<td class='outer_column'></td>";}
+	?>
+</tr>
+
+<?php
+foreach($this->roles as $role){
+    ?>
+    <tr class='alternate_rows'>
+    	<td class='role_name'><?= $role->name?></td>
+    	<td class='role_desc'><?= $role->description?></td>
+    	<td class='create'><img src="../img/icons/bool/<?= $role->create_report?>.png"></td>
+    	<td class='edit'><img src="../img/icons/bool/<?= $role->edit_report?>.png"></td>
+    	<td class='delete'><img src="../img/icons/bool/<?= $role->delete_report?>.png"></td>
+    	<td class='create'><img src="../img/icons/bool/<?= $role->create_user?>.png"></td>
+    	<td class='edit'><img src="../img/icons/bool/<?= $role->edit_user?>.png"></td>
+    	<td class='delete'><img src="../img/icons/bool/<?= $role->delete_user?>.png"></td>
+    	<td class='create'><img src="../img/icons/bool/<?= $role->create_role?>.png"></td>
+    	<td class='edit'><img src="../img/icons/bool/<?= $role->edit_role?>.png"></td>
+    	<td class='delete'><img src="../img/icons/bool/<?= $role->delete_role?>.png"></td>
+    <?php
+    	if ($user_role->edit_role == 1){
+    		echo "<td class='outer_column'><a href='/user/editrole?id=" . $role->id ."'><img src='../img/icons/edit.png'></a></td>";
+    	}
+    	if ($user_role->delete_user == 1){
+    		echo "<td class='outer_column'><a href='/user/deleterole?id=" . $role->id ."'><img src='../img/icons/delete.png'></a></td>";
+    	}
+    	?>
+    </tr>
+ <?php } ?>
+ </table>
+ 
+<br>
+<br>
+
+<h1> Users
+	<?php
+	if ($user_role->create_user == 1){
+		?>
+		<a href="/user/register"><div class="effect1 small-button round blue ic-add" style="position:relative; top: -5px; left: 40px">Add User</div></a>
+		<?php
+	}
+	?>
+
+</h1>
+<table id='users_table' class="effect1">
+<tr class='table_header'>
+	<td>First Name</td>
+	<td>Last Name</td>
+	<td>Email</td>
+	<td>Role</td>
+	<td>Added By</td>
+	<?php if ($user_role->edit_user == 1){
+		echo '<td class="outer_column"></td>';}
+	?>
+	<?php if ($user_role->delete_user == 1){
+		echo "<td class='outer_column'></td>";}
+	?>
+</tr>
+
+<?php
+foreach($this->users as $user){
+    ?>
+    <tr class='alternate_rows'>
+    	<td><?= $user->first_name?></td>
+    	<td><?= $user->last_name?></td>
+    	<td><?= $user->email?></td>
+    	<td><?= $role_mapper->getRoleById($user->role)->name?></td>
+    	<td><?= $user_mapper->getUserById($user->created_by)->first_name?> 
+    		<?= $user_mapper->getUserById($user->created_by)->last_name?>
+    	</td>
+    	<?php
+    	if ($user_role->edit_user == 1){
+    		echo "<td class='outer_column'><a href='/user/edit?id=" . $user->id ."'><img src='../img/icons/edit.png'></a></td>";
+    	}
+    	if ($user_role->delete_user == 1){
+    		echo "<td class='outer_column'><a href='/user/delete?id=" . $user->id ."'><img src='../img/icons/delete.png'></a></td>";
+    	}
+    	?>
+
+    </tr>
+ <?php } ?>
+ </table>
+
+<script>
+	$(document).ready(function(){
+		var table_legend = $('#table_legend');
+
+		$('#show_privilegies').mouseenter(function(){
+			table_legend.removeClass('hidden');  
+		    setTimeout(function(){  
+		    	table_legend.removeClass('visuallyhidden');  
+		    }, 200);  
+		});
+
+		$('#show_privilegies').mouseleave(function(){
+		    table_legend.addClass('visuallyhidden');  
+		    table_legend.one('transitionend', function(e) {  
+		        box.addClass('hidden');  
+  			});  
+		});
+	});
+</script>

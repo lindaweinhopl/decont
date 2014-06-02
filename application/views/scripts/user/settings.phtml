@@ -1,0 +1,43 @@
+<h1> Change account settings</h1>
+<?php
+    $identity = Zend_Auth::getInstance()->getIdentity();
+?>
+
+<form action="/user/settings"
+    autocomplete="off" method="post" id="user_settings_form">                        
+    <div class="clearfix">
+    <div style="float: left; width: 200px; padding-right: 0px; padding-left: 50px">
+
+    <p>
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" value="<?=$identity->first_name?>" class="round full-width-input"/>
+    </p>
+    <p>
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" value="<?=$identity->last_name?>" class="round full-width-input"/>
+    </p>
+    <p>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" value="<?=$identity->email?>" class="round full-width-input"/>
+    </p>
+    </div>
+    
+    <div style="float:left; width: 400px; margin-left: 100px">
+    <p>
+        <label for="password0">Current password</label>
+        <input type="password" id="password0" name="password0" class="round default-width-input"/>
+        <em>Your password will remain the same if the following fields are not filled.</em>
+    </p>
+    <p>
+        <label for="password1">New password</label>
+        <input type="password" id="password1" name="password1" class="round default-width-input"/>
+    </p>
+    <p>
+        <label for="password2">Repeat password</label>
+        <input type="password" id="password2" name="password2" class="round default-width-input"/>
+        <em>Please retype your new password.</em>
+    </p>
+    <input type="submit" value="Update" class="round blue ic-settings effect2" />
+    </div>
+    </div>
+</form>

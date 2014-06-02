@@ -1,0 +1,44 @@
+<h1> Add user </h1>
+
+<form enctype="application/x-www-form-urlencoded" autocomplete="off" action="/user/register" method="post" id="register_forma">
+	<div class="clearfix">
+    <div style="float: left; width: 200px; padding-right: 0px; padding-left: 50px">
+
+    <p>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" class="round full-width-input required" required/>
+    </p>
+    <p>
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" class="round full-width-input required" required/>
+    </p>
+    <p>
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" class="round full-width-input required" required/>
+    </p>
+    <p>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="round full-width-input" required/>
+    </p>
+    </div>
+
+    <div style="float:left; width: 400px; margin-left: 100px">
+    	<p>
+		<h4 style="margin-bottom: 0px; padding-bottom: 10px">Role</h4>
+		
+		<?php
+		foreach($this->roles as $role){
+			?>
+		    	<input <?php if ($role->id == 1){ echo "checked";}?> style="display:inline" type="radio" name="role" value="<?=$role->id?>" id="<?=$role->id?>"/>
+		    	<label style="display:inline" for="<?$role->id?>"><?=$role->name?></label>
+		    	<br>
+	   		
+		<?php
+		}?>
+		<br>
+		<em>Click<a href="/user"> here </a>if you want to create new roles or get informations about existing user roles.</em>
+		</p>
+		<input type="submit" value="Register" class="round blue ic-add effect2" />
+    </div>
+    </div>
+</form>

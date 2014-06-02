@@ -1,0 +1,81 @@
+<?php
+    $identity = Zend_Auth::getInstance()->getIdentity();
+    $user_mapper = new Application_Model_UserMapper();
+    $role_mapper = new Application_Model_RoleMapper();
+    $user_role = $role_mapper->getRoleById($identity->role);
+    
+?>
+
+<div style="text-align: center; position: relative; margin-left: 250px; top: -15px">
+<table class="effect1" id="document_table">
+    <tr class="table_header">
+        <td>Titular</td>
+        <td>Data</td>
+        <td>Adaugat de</td>
+        <?php if ($user_role->edit_report == 1){
+            echo '<td class="outer_column"></td>';}
+        ?>
+        <?php if ($user_role->delete_report == 1){
+            echo '<td class="outer_column"></td>';}
+        ?>
+
+    </tr>
+    <?php
+        $user_mapper = new Application_Model_UserMapper();
+        foreach($this->documents as $document){
+            $url = "/document/view?id=" . $document['id'];
+            $submiter = $user_mapper->getUserById($document['submited_by']);
+            $data = json_decode($document->data);
+            ?>
+            <tr class="alternate_rows" onclick="document.location = '<?=$url?>';">
+                <td><?=$data->titular?></td>
+                <td><?=$document->date_submited?></td>
+                <td><?= $submiter->first_name . " ". $submiter->last_name?></td>
+                <?php
+                if ($user_role->edit_user == 1){
+                    echo "<td class='outer_column'><a href='/document/edit?id=" . $document->id ."'><img src='../img/icons/edit.png'></a></td>";
+                }
+                if ($user_role->delete_user == 1){
+                    echo "<td class='outer_column'><a href='/document/delete?id=" . $document->id ."'><img src='../img/icons/delete.png'></a></td>";
+                }
+                ?>
+            </tr>
+            <?php
+        } 
+        if(count($this->documents) == 0){
+            ?>
+            <h4 style="height: 200px"> No results found. Try changing the search filters.</h4>
+            <!-- TODO : this is an ugly workaround, do proper bug fix -->
+            <style>
+                #sidebar{
+                    position:absolute;
+                    right: 45px !important;
+                    top: 103px;
+                    bottom: 0px;
+                    width: 270px;
+                }
+                #document_table{
+                    display:none;
+                }
+            </style>
+            <?php
+        }
+    ?>
+</table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('li a').mouseenter(function(){
+            $(this).find('.details').toggle(400);
+        });
+        $('li a').mouseleave(function(){
+            $(this).find('.details').toggle(400);
+        });
+
+    });
+</script>
+
+<div style="margin-left: 270px">
+<?= $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
+</div>

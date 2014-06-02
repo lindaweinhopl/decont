@@ -1,0 +1,35 @@
+<h1>Decont UVT</h1>
+
+<h3 style="position:relative; top: 10px; left: 40px; display:inline">Whiteboard</h3>
+
+<?php
+	if ($this->user_role->edit_report == 1){
+		?>
+		<div id="edit_whiteboard_button" class="effect1 small-button round blue ic-edit" style="position:relative; top: 5px; left: 60px">Edit</div>
+		<?php
+	}
+?>
+
+<br><br>
+<div id="whiteboard_text">
+	<p><?=$this->whiteboard->value?></p>
+	<em style="display:block;"> Last modified by <?=$this->modifier->first_name?>
+					  <?= $this->modifier->last_name?>
+					  <?php if ($this->whiteboard->date_modified){echo "at " . $this->whiteboard->date_modified;}?> .</em>
+</div>
+
+
+<form action="/" id="edit_whiteboard" method="post">
+	<textarea id="edit_wb_text" name="edit_wb_text" class="round full-width-textarea" 
+	required><?=$this->whiteboard->value?></textarea>
+	<input type="submit" value="Submit" class="round blue ic-upload effect1"/>
+</form>
+
+<script>
+	$(document).ready(function(){
+		$('#edit_whiteboard_button').click(function(){
+			$('#whiteboard_text').toggle();
+			$('#edit_whiteboard').toggle();
+		});
+	});
+</script>

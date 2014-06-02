@@ -1,0 +1,48 @@
+<div style="width: 400px; margin-left: auto; margin-right: auto; text-align: center">
+<?php if ($this->pageCount): ?>
+    <div class="pagination">
+        <?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?>
+        of <?php echo $this->totalItemCount; ?>
+    </div> 
+
+    <div class="pagination">
+    <!-- First page link -->
+    <?php if (isset($this->previous)): ?>
+      <a href="javascript:" onclick="setGetParameter('page', '<?= $this->first ?>', true)">
+        &lsaquo;&lsaquo;
+      </a>
+    <?php else: ?>
+      <span class="disabled">&lsaquo;&lsaquo;</span> 
+    <?php endif; ?>
+     
+    <!-- Previous page link -->
+    <?php if (isset($this->previous)): ?>
+      <a href="javascript:" onclick="setGetParameter('page', '<?= $this->previous ?>', previous)">
+        &lsaquo;
+      </a> 
+    <?php else: ?>
+      <span class="disabled">&lsaquo;</span> 
+    <?php endif; ?>
+     
+    <!-- Next page link -->
+    <?php if (isset($this->next)): ?>
+      <a href="javascript:" onclick="setGetParameter('page', '<?= $this->next ?>', true)">
+        &rsaquo;
+      </a> 
+    <?php else: ?>
+      <span class="disabled">&rsaquo;</span> 
+    <?php endif; ?>
+     
+    <!-- Last page link -->
+    <?php if (isset($this->next)): ?>
+      <a href="javascript:" onclick="setGetParameter('page', '<?= $this->last ?>', true)">
+        &rsaquo;&rsaquo;
+      </a>
+    <?php else: ?>
+      <span class="disabled">&rsaquo;&rsaquo;</span>
+    <?php endif; ?>
+     
+    
+    <?php endif; ?>
+    </div>
+</div>

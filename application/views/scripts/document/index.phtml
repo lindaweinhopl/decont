@@ -1,0 +1,89 @@
+<h1 style="display: inline-block"> Browse documents </h1>
+<form method="get" action="/document/index" class="filter_form effect2" id="filter_form">
+    <h4 style="font-weight: 500">SEARCH OPTIONS</h4>
+    <h5>Sort by&#x25BC;</h5> <!-- &#x25B2; and &#x25BC; -->
+    <div class="options">
+    <p> 
+        <input type="radio" name="sort" value="date_submited" id="date_submited" checked/><label for="date_submited">Date</label>
+    </p>
+    <p> 
+        <input type="radio" name="sort" value="submited_by" id="submited_by"/><label for="submiter">Submiter</label>
+    </p>    
+    <p>
+        <input type="radio" name="sort" value="title" id="title"/><label for="title">Title</label>
+    </p>
+
+    <p style="margin-top: 10px">
+        <input type="radio" name="sort_type" value="ASC" id="ASC"/><label for="ASC">Ascending</label>
+    </p>
+    <p> 
+        <input type="radio" name="sort_type" value="DESC" id="DESC" checked/><label for="DESC">Descending</label>
+    </p>
+
+    </div>
+    <h5>Items per page&#x25BC;</h5> <!-- &#x25B2; and &#x25BC; -->
+    <div class="options">
+    <p>
+        <input type="radio" name="nr_results" value="15" id="15"/><label for="15">15</label>
+    </p>
+    <p> 
+        <input type="radio" name="nr_results" value="30" id="30"/><label for="30">30</label>
+    </p>
+    <p> 
+        <input type="radio" name="nr_results" value="45" id="45"/><label for="45">45</label>
+    </p>   
+    </div>
+    <input type="text" name="user" id="user" value="" style="display:none"/>
+    <input type="text" name="search" id="search" value="" style="display:none"/>
+
+    <input type="submit" class="round blue ic-filter effect2" value="Filter"/>
+</form>
+
+<script>
+
+var toggleArrow = function($string){
+    if ($string.search('▲') >= 0)
+        return $string.slice(0,-1) + '▼'; 
+    else{
+        return $string.slice(0,-1) + '▲';
+    }
+}
+
+var form_data = <?php echo json_encode($this->query); ?>;
+console.log(form_data);
+
+var fill_inputs = function(form_data){
+    // console.log(form_data)
+    for (key in form_data){
+        console.log(key);
+        if (key === 'user' || key === 'search')
+            continue;
+        var id = form_data[key];
+        if (id != null)
+            document.getElementById(id).checked = true;  
+    }
+    if (form_data['user'] !== null && form_data['user'] !== ''){
+        document.getElementById('user').value = form_data['user'];
+    }
+    else{
+        $('#user').remove();
+    }
+
+    if (form_data['search'] != null)
+        document.getElementById('search_query').value = form_data['search'];
+}
+
+$(document).ready(function(){
+        $('h5').click(function(){
+            $content = $(this).text();
+            $(this).text(toggleArrow($content));
+            $(this).nextAll('.options:first').toggle(600);
+        });
+        fill_inputs(form_data);
+    });
+</script>
+
+<?php
+    $this->documents = $this->paginator;
+    // $this->setLfiProtection(false);
+    echo $this->render('document_list.phtml');
